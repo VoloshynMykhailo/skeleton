@@ -1,17 +1,16 @@
-const {path: PROJECT_ROOT} = require('app-root-path');
-const {resolve} = require('path');
+import {path as PROJECT_ROOT} from 'app-root-path';
+import {resolve} from 'path';
 
-   
 const SOURCE_DIR = resolve(PROJECT_ROOT, './source');
-const BUILD_DIR = resolve(PROJECT_ROOT, './build');
 const DIST_DIR = resolve(PROJECT_ROOT, './dist');
 const DEV_HOST = 'localhost';
 const DEV_PORT = '3000';
+const PROD_HOST = 'https://example.com';
 
-module.exports = {
+export {
     SOURCE_DIR,
-    BUILD_DIR,
     DIST_DIR,
     DEV_HOST,
     DEV_PORT,
+    PROD_HOST,
 };

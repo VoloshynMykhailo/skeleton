@@ -1,49 +1,58 @@
-const {resolve} = require('path');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
+import { HotModuleReplacementPlugin } from 'webpack';
+import {merge} from 'webpack-merge';
+import postcssEnv from 'postcss-preset-env';
+import FriendlyErrorsWebpackPlugin from 'friendly-errors-webpack-plugin';
 
-const {SOURCE_DIR, DIST_DIR} = require('./data');
+import {commonConfig} from './common.config';
 
-console.log('development config');
+console.log('DEVELOPMENT CONFIG');
 
-// --env param1=one param2=two etc.
-module.exports = (env) => {
-    console.log('-> ', env);
-
-    return {
-        mode: 'development',
-        devtool: 'source-map',
-        entry: {
-            main: resolve(SOURCE_DIR, 'main.js'),
-            admin: resolve(SOURCE_DIR, 'admin.js'),
-        },
-        output: {
-            clean: true,
-            filename: '[name].js',
-            path: DIST_DIR,
-        },
-        module: {
-            rules: [
-                {
-                    test: /\.css$/,
-                    use: ['style-loader', 'css-loader']
-                }
-            ]
-        },
-        plugins: [
-            new HtmlWebpackPlugin({
-                filename: 'main.html',
-                template: './static/main.html',
-                title: 'Тестовый заголовок',
-                chunks: ['main']
-
-            }),
-            new HtmlWebpackPlugin({
-                filename: 'admin.html',
-                template: './static/admin.html',
-                title: 'Админ заголовок',
-                chunks: ['admin']
-
-            })
+export const config = merge(commonConfig, {
+    mode: 'development',
+    devtool: 'eval-cheap-module-source-map',
+    entry: {
+        main: [
+            // Runtime code for hot module replacement
+            'webpack/hot/dev-server.js',
+            // Dev server client for web socket transport, hot and live reload logic
+            'webpack-dev-server/client/index.js?hot=true&live-reload=true',
+            // 'webpack-hot-middleware/client?reload=true&live-reload=true',
         ]
-    }
-};
+    },
+    module: {
+        rules: [
+            {
+                test: /\.css$/,
+                use: [
+                    'style-loader',
+                    {
+                        loader: 'css-loader',
+                        options: {
+                            sourceMap: true,
+                            modules: {
+                                localIdentName: '[local]-[hash:base64:5]',
+                            },
+                        }
+                    },
+                    {
+                        loader: 'postcss-loader',
+                        options: {
+                            sourceMap: true,
+                            postcssOptions: {
+                                plugins: [
+                                    postcssEnv({
+                                        stage: 0,
+                                    })
+                                ]
+                            }
+                        }
+                    }
+                ]
+            },
+        ]
+    },
+    plugins: [
+        new HotModuleReplacementPlugin(),
+        new FriendlyErrorsWebpackPlugin(),
+    ]
+});

@@ -1,14 +1,9 @@
-//What do we need
-// - webpack
-// - config
-// - compiler
-// - start
+import webpack from 'webpack';
+import chalk from 'chalk'; //расскрашиваем консоль
 
-const webpack = require('webpack');
-const chalk = require('chalk'); //расскрашиваем консоль
+import {config} from '../production.config'; // func/obj
 
-console.log(chalk.green('START without webpack-cli'));
-const config = require('../production.config'); // func/obj
+console.log(chalk.green('START PRODUCTION'));
 
 const compiler = webpack(config);
 // compiler.watch({}, (error, stats) => {

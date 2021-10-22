@@ -1,6 +1,9 @@
 import {increase} from './util';
-// import '../static/styles/common.css';
-// import '../static/styles/admin.css';
+import './styles/common.css';
+import './styles/admin.css';
+
+//REACT
+import './react-components/App';
 
 console.log('admin page entry is here');
 console.log(increase(2));

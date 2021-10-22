@@ -1,6 +1,8 @@
+@import '../fonts/index.css';
+
 body {
     color: indigo;
     font-size: 16px;
     line-height: 24px;
-    font-family: Arial, Helvetica, sans-serif;
+    font-family: NotoSans, system-ui;
 }

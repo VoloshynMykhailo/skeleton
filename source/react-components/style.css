@@ -1,0 +1,32 @@
+.app {
+    --app-color: #92979b;
+}
+
+.title {
+    margin-bottom: 32px;
+}
+
+.btn {
+    color: var(--app-color);
+    background-color: transparent;
+
+    &.test {
+        border: 1px solid blue;
+    }
+}
+
+.jpegIcon {
+    display: flex;
+    width: 700px;
+    height: 200px;
+    background-image: url("../images/bg1.jpeg");
+    background-position: center;
+}
+
+.svgIcon {
+    display: flex;
+    width: 56px;
+    height: 56px;
+    background-image: url("../images/iconPro.svg");
+    border: 1px solid red;
+}

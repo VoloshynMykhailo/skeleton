@@ -1,43 +1,28 @@
-//What do we need
-// - webpack
-// - config
-// - compiler
-// - start
+import webpack from 'webpack';
+import devServer from 'webpack-dev-server'
+import hot from 'webpack-hot-middleware';
+import chalk from 'chalk'
+import openBrowser from 'react-dev-utils/openBrowser';
 
-const webpack = require('webpack');
-const chalk = require('chalk'); //расскрашиваем консоль
+import {DEV_HOST, DEV_PORT} from '../data';
+import {config} from '../development.config';
 
-console.log(chalk.green('START without webpack-cli'));
-const getConfig = require('../development.config'); // func/obj
+console.log(chalk.green('START DEVELOPMENT'));
 
-const compiler = webpack(getConfig());
-// compiler.watch({}, (error, stats) => {
-compiler.run((error, stats) => {
-    // config error
-    if (error) {
-        console.error(error.stack || error, error.details);
-        return null;
-    }
+const compiler = webpack(config);
+const server = new devServer({
+    host: DEV_HOST,
+    port: DEV_PORT,
+    // historyApiFallback: true, // redirect everything to index (for SPA)
+    client: {
+        overlay: true,
+    },
+    onAfterSetupMiddleware: (devServer) => {
+        devServer.app.use(hot(compiler, {log: false}))
+    },
+}, compiler);
 
-    const info = stats.toString({
-        hash: false,
-        modules: false,
-        colors: true,
-        version: true,
-        env: true,
-    });
-
-    console.log(chalk.greenBright('COMPLETED'));
-    console.log(info);
-
-    if (stats.hasErrors()) {
-        console.log(chalk.redBright('COMPILATION ERROR'));
-    }
-
-    if (stats.hasWarnings()) {
-        console.log(chalk.yellow('WARNING: FAILED IMPORT, SYNTAX ERROR, ETC.'));
-    }
-}); 
-
-
-
+server.startCallback(() => {
+    console.log(chalk.greenBright(`server listening on http://${DEV_HOST}:${DEV_PORT}`));
+    openBrowser(`http://${DEV_HOST}:${DEV_PORT}`);
+});
