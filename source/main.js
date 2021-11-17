@@ -2,7 +2,7 @@ import "regenerator-runtime/runtime";
 import {increase} from './util';
 
 //React
-import './react-components/App';
+import './react-app/App';
 
 import './styles/common.css';
 import './styles/main.css';

@@ -6,13 +6,10 @@
     margin-bottom: 32px;
 }
 
-.btn {
+.line {
     color: var(--app-color);
-    background-color: transparent;
-
-    &.test {
-        border: 1px solid blue;
-    }
+    width: 100%;
+    border-bottom: 1px solid var(--app-color);
 }
 
 .jpegIcon {

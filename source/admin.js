@@ -3,7 +3,7 @@ import './styles/common.css';
 import './styles/admin.css';
 
 //REACT
-import './react-components/App';
+import './react-app/App';
 
 console.log('admin page entry is here');
 console.log(increase(2));
